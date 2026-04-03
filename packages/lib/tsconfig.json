@@ -6,7 +6,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "module": "CommonJS",
     "types": ["node"],
     "paths": {
       "@mas/*": ["../*"]

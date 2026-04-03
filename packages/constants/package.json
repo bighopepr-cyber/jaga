@@ -4,14 +4,17 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
-    "dev": "npx tsc --watch",
+    "build": "pnpm exec tsc",
+    "dev": "pnpm exec tsc --watch",
     "clean": "rm -rf dist"
   },
   "exports": {
     ".": "./dist/index.js"
   },
   "devDependencies": {
+    "@swc/core": "^1.15.21",
+    "@swc/register": "^0.1.10",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.0"
   }
 }

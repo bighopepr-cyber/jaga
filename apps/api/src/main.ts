@@ -1,3 +1,6 @@
+// Register path aliases for runtime
+import 'tsconfig-paths/register';
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { IoAdapter } from '@nestjs/platform-socket.io';

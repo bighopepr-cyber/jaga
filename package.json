@@ -14,12 +14,13 @@
     "format": "turbo run format",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean && rm -rf node_modules && rm -rf pnpm-lock.yaml",
-    "db:setup": "cd prisma && node scripts/setup.ts",
+    "db:setup": "cd prisma && pnpm exec node scripts/setup.ts",
     "db:seed": "cd prisma && npx prisma db seed",
     "db:clean": "cd prisma && node scripts/clean.ts"
   },
   "devDependencies": {
-    "turbo": "^1.10.16"
+    "turbo": "^1.10.16",
+    "prisma": "^5.22.0"
   },
   "packageManager": "pnpm@8.10.2"
 }

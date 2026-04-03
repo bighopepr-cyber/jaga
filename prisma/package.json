@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "seed": "node --loader ts-node/esm --no-warnings seed.ts"
   },
@@ -7,9 +8,13 @@
     "seed": "ts-node seed.ts"
   },
   "devDependencies": {
-    "prisma": "5.22.0"
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^17.4.0",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.0"
   },
   "dependencies": {
-    "@prisma/client": "5.22.0"
+    "@prisma/client": "^5.22.0"
   }
 }

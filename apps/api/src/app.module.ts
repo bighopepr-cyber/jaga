@@ -22,7 +22,7 @@ import { WebSocketModule } from './websocket/websocket.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.local',
+      envFilePath: '../../.env.local',
     }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret',

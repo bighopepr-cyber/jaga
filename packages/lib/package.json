@@ -4,12 +4,17 @@
   "main": "./dist/utils/index.js",
   "types": "./dist/utils/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
-    "dev": "npx tsc --watch",
+    "build": "pnpm exec tsc",
+    "dev": "pnpm exec tsc --watch",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@types/node": "^20.19.39"
+    "@types/node": "^20.19.39",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@mas/constants": "*",
+    "@mas/types": "*"
   },
   "exports": {
     ".": "./dist/utils/index.js",

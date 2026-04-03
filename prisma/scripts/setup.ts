@@ -7,7 +7,7 @@ async function setupDatabase() {
     // Run migrations
     console.log('📋 Running migrations...');
     try {
-      execSync('npx prisma migrate deploy', {
+      execSync('cd .. && pnpm exec prisma migrate deploy', {
         stdio: 'inherit',
       });
     } catch (error) {
@@ -17,7 +17,7 @@ async function setupDatabase() {
     // Seed database
     console.log('🌱 Seeding database...');
     try {
-      execSync('npx prisma db seed', {
+      execSync('cd .. && pnpm exec prisma db seed', {
         stdio: 'inherit',
       });
     } catch (error) {
