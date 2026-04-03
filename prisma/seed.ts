@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+// @ts-ignore
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -67,6 +68,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error('❌ Seed failed:', e);
+    // @ts-ignore
     process.exit(1);
   })
   .finally(async () => {

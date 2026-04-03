@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "Node16",
     "target": "ES2021",
     "lib": ["ES2021"],
     "outDir": "./dist",
@@ -12,8 +12,13 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-    "types": ["node"]
+    "moduleResolution": "node16",
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@mas/*": ["../../packages/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]
