@@ -2,9 +2,15 @@
 
 📌 Overview
 
-Sistem ini dirancang untuk memantau pergerakan anggota (keluar & kembali) secara aman, fleksibel, dan auditable.
+Sistem ini dirancang untuk memantau pergerakan anggota satuan secara aman, disiplin, fleksibel, dan auditable.
 
-Menggunakan pendekatan QR statis + token dinamis + modular security system, sistem ini memungkinkan admin (pos jaga) untuk mengatur tingkat keamanan sesuai kebutuhan operasional melalui dashboard.
+Menggunakan pendekatan QR statis + token dinamis + modular security system, sistem ini memungkinkan pos jaga / petugas untuk mengontrol tingkat keamanan sesuai kebutuhan operasional lapangan.
+
+Sistem ini disesuaikan untuk lingkungan militer / semi-militer dengan fokus pada:
+
+- Disiplin tinggi
+- Validasi kehadiran yang ketat
+- Audit penuh untuk komando
 
 ---
 
@@ -13,22 +19,22 @@ Menggunakan pendekatan QR statis + token dinamis + modular security system, sist
 🔳 QR-Based Attendance
 
 - 2 QR statis: Keluar & Kembali
-- Token dinamis untuk mencegah replay & penyalahgunaan
+- Token dinamis untuk mencegah penyalahgunaan
 
 🔐 Modular Security System
 
-Semua fitur keamanan dapat diaktifkan / dinonaktifkan melalui dashboard admin.
+Semua fitur keamanan dapat diatur oleh petugas melalui dashboard pos jaga.
 
 📍 Location Validation
 
 - GPS
 - WiFi SSID
 - (Opsional) Bluetooth Beacon
-- Geofencing radius configurable
+- Radius geofencing configurable
 
 📱 Device Binding
 
-- Mengikat akun ke device tertentu
+- Kontrol perangkat anggota
 - Mode: OFF / SOFT / STRICT
 
 📸 Proof of Presence
@@ -38,56 +44,144 @@ Semua fitur keamanan dapat diaktifkan / dinonaktifkan melalui dashboard admin.
 
 🧠 Smart Detection
 
-- Fake GPS detection
-- Device switching detection
-- Rapid scan detection
-- Location anomaly detection
+- Deteksi anomali aktivitas
+- Fake GPS
+- Device switching
+- Scan tidak wajar
 
 📊 Audit & Monitoring
 
-- Real-time dashboard
-- Log lengkap (device, IP, lokasi)
+- Log lengkap (NRP, device, IP, lokasi)
+- Monitoring real-time
 - Status anggota (keluar / kembali)
 
 ⚙️ Installer 1-Click
 
-- Setup backend, frontend, dan database otomatis
-- GUI konfigurasi awal
+- Setup cepat untuk deployment di pos jaga
+
+---
+
+🆕 📥 Mass Input Data Anggota (Bulk Import)
+
+Untuk kebutuhan satuan (kompi/batalyon), sistem mendukung input data anggota secara massal melalui dashboard admin.
+
+📄 Format File yang Didukung
+
+- ".csv"
+- ".xlsx"
+
+🧾 Struktur Data (Wajib)
+
+Field| Keterangan
+nrp| Nomor Registrasi Prajurit (unik)
+nama| Nama anggota
+pangkat| Pangkat
+satuan| Unit / kompi
+pin| PIN awal
+status| aktif / nonaktif
+
+---
+
+⚙️ Fitur Import
+
+- Upload file langsung dari dashboard
+- Validasi otomatis:
+  - NRP duplikat
+  - Format data salah
+- Preview sebelum submit
+- Auto-generate PIN (opsional)
+- Update data massal (overwrite / skip)
+
+---
+
+🔒 Keamanan Import
+
+- Hanya dapat diakses oleh petugas berwenang
+- Log aktivitas import dicatat (audit trail)
+- Setiap perubahan data anggota tersimpan
+
+---
+
+🖥️ Admin Dashboard (Pos Jaga)
+
+Dashboard dirancang untuk kebutuhan operasional militer, cepat, jelas, dan minim distraksi.
+
+---
+
+📊 Statistik Operasional (Real-Time)
+
+Dashboard menampilkan statistik berikut:
+
+🪖 Status Anggota
+
+- Total anggota aktif
+- Jumlah anggota:
+  - 🟢 Di dalam markas
+  - 🔵 Sedang keluar
+  - 🔴 Terlambat kembali
+
+---
+
+⏱️ Aktivitas Harian
+
+- Total keluar hari ini
+- Total kembali hari ini
+- Peak hour aktivitas
+
+---
+
+⚠️ Keamanan & Anomali
+
+- Jumlah aktivitas mencurigakan
+- Fake GPS terdeteksi
+- Device tidak dikenal
+- Scan di luar radius
+
+---
+
+📍 Monitoring Lokasi
+
+- Distribusi lokasi anggota (opsional map)
+- Highlight anggota di luar zona
+
+---
+
+📈 Tren
+
+- Grafik aktivitas harian / mingguan
+- Pola keluar-masuk satuan
+
+---
+
+🔧 Security Control Panel
+
+Petugas dapat mengatur:
+
+- Tingkat keamanan
+- Aktivasi modul
+- Parameter sistem
+
+---
+
+🎯 Preset Mode
+
+Mode| Deskripsi
+🟢 LOW| Operasional ringan
+🟡 MEDIUM| Standar
+🔴 HIGH| Disiplin tinggi (direkomendasikan)
 
 ---
 
 🧩 Modular Feature Toggle System
 
-Semua fitur dikontrol melalui konfigurasi sistem:
-
-Module| Description| Mode
-Authentication| Login & verifikasi| PIN / OTP / Face
-Device Binding| Kontrol device| OFF / SOFT / STRICT
-Location Validation| Validasi lokasi| OFF / GPS / HYBRID
-QR Security| Token QR| Interval & expiry
-Proof of Presence| Kamera| OFF / OPTIONAL / REQUIRED
-Smart Detection| Deteksi anomali| LOW / MEDIUM / HIGH
-Audit System| Logging & monitoring| ON / OFF
-
----
-
-🖥️ Admin Dashboard
-
-🔧 Security Control Panel
-
-Admin dapat mengatur seluruh sistem secara real-time:
-
-- Enable / disable fitur
-- Atur level keamanan
-- Monitor aktivitas anggota
-- Review alert & anomaly
-
-🎯 Preset Mode
-
-Mode| Deskripsi
-🟢 LOW| Basic GPS, QR lambat
-🟡 MEDIUM| GPS + WiFi, device soft
-🔴 HIGH| Full security (recommended)
+Module| Mode
+Authentication| PIN / OTP / Face
+Device Binding| OFF / SOFT / STRICT
+Location| OFF / GPS / HYBRID
+QR Security| Configurable
+Presence| OFF / OPTIONAL / REQUIRED
+Detection| LOW / MEDIUM / HIGH
+Audit| ON / OFF
 
 ---
 
@@ -97,27 +191,28 @@ Mode| Deskripsi
 
 1. Scan QR Keluar
 2. Validasi token
-3. Login (NRP + PIN)
-4. Device validation (jika aktif)
-5. Location validation (jika aktif)
-6. Face capture (jika aktif)
-7. Smart detection check
-8. Submit → update status & log
+3. Login anggota
+4. Validasi device
+5. Validasi lokasi
+6. Capture bukti (jika aktif)
+7. Analisis sistem
+8. Submit → status keluar tercatat
+
+---
 
 📥 Kembali
 
-Flow sama seperti keluar, dengan update status kembali.
+Flow identik dengan update status kembali.
 
 ---
 
 🔒 Security Features
 
 Risiko| Mitigasi
-QR disalahgunakan| Token dinamis + expiry
-Fake GPS| Hybrid location + detection
+Penyalahgunaan QR| Token dinamis
+Fake GPS| Hybrid validation
 PIN sharing| Device binding
 Manipulasi waktu| Server timestamp
-Scan dari luar lokasi| Geofencing + validation
 Aktivitas mencurigakan| Smart detection
 
 ---
@@ -126,125 +221,88 @@ Aktivitas mencurigakan| Smart detection
 
 Backend
 
-- Token management
-- Location validation
-- Device validation
-- Smart detection engine
-- API service
+- Token engine
+- Validation engine
+- Smart detection
+- Config system
 
 Frontend
 
-- QR scanning interface (PWA)
-- Login & form
-- Admin dashboard
+- PWA scan QR
+- Dashboard admin (pos jaga)
 
 Database
 
-- User (NRP, PIN, device)
-- Activity log
-- System config
-- Audit trail
-
-Realtime Layer
-
-- WebSocket / polling untuk update dashboard & QR
+- Data anggota
+- Log aktivitas
+- Konfigurasi sistem
 
 ---
 
 ⚙️ Configuration Example
 
 {
-  "auth": {
-    "pin": true,
-    "otp": false,
-    "face": true
-  },
-  "device": {
-    "mode": "strict"
-  },
-  "geo": {
-    "mode": "hybrid",
-    "radius": 50
-  },
-  "qr": {
-    "refresh_interval": 10,
-    "anti_replay": true
-  },
-  "presence": {
-    "face_required": true
-  },
-  "detection": {
-    "level": "high",
-    "action": "block"
-  }
+  "device_mode": "strict",
+  "geo_mode": "hybrid",
+  "qr_refresh": 10,
+  "face_required": true,
+  "detection_level": "high"
 }
 
 ---
 
 📦 Installation
 
-1. Jalankan Installer
-
-- Pilih platform (Windows/Linux/Mac)
-- Jalankan installer 1-klik
-
-2. Setup Awal
-
-- Input koordinat pos jaga
-- Tentukan radius geofencing
-- Atur interval QR token
-- Pilih lokasi database
-
-3. Jalankan Sistem
-
-- Backend, frontend, dan database otomatis aktif
+1. Jalankan installer
+2. Setup koordinat pos
+3. Atur radius & token
+4. Import data anggota (bulk)
+5. Sistem siap digunakan
 
 ---
 
-📝 Operational Notes
+📝 Operational Notes (Militer)
 
-- QR tidak perlu diganti (token berubah otomatis)
-- GPS disarankan aktif untuk akurasi tinggi
-- Backup database secara berkala
-- Admin dapat mengubah konfigurasi kapan saja
+- QR ditempatkan di pos jaga resmi
+- Absensi wajib dilakukan secara langsung (tidak boleh diwakilkan)
+- Setiap aktivitas tercatat untuk kebutuhan audit komando
+- Data anggota harus diperbarui secara berkala
 
 ---
 
 💡 Use Cases
 
-- Militer / keamanan
-- Satpam perusahaan
-- Pabrik & industri
-- Kampus
-- Event management
+- Satuan militer
+- Pengamanan objek vital
+- Operasi lapangan
+- Latihan militer
 
 ---
 
-🚀 Roadmap (Optional Development)
+🚀 Roadmap
 
-- Mobile native app
-- Integrasi WhatsApp / Email notifikasi
-- Biometric authentication
-- Offline sync mode
-- AI anomaly detection advanced
+- Integrasi biometrik lanjutan
+- Offline mode (operasi lapangan)
+- Integrasi sistem komando
+- AI behavior analysis
 
 ---
 
 🛡️ Value Proposition
 
-- 🔒 Security configurable (rare feature)
-- ⚙️ Fleksibel untuk berbagai kondisi lapangan
-- 📦 Mudah deploy (installer 1-klik)
-- 📊 Full audit & accountability
+- Disiplin & kontrol tinggi
+- Transparansi operasional
+- Konfigurasi fleksibel
+- Siap deployment lapangan
 
 ---
 
 📄 License
 
-MIT License / Custom Enterprise License (opsional)
+Custom Military / Enterprise License
 
 ---
 
 👨‍💻 Author
 
-Developed as a modular, scalable, and secure attendance system for high-discipline environments.
+Dirancang untuk mendukung operasional satuan dengan standar disiplin tinggi, keamanan, dan akuntabilitas penuh.
