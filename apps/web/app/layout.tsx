@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { LayoutDashboard, Users, Upload, FileText, Settings, Menu } from 'lucide-react';
+import './globals.css';
 
 export const metadata = {
   title: 'Military Attendance System',
@@ -13,17 +15,36 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen bg-gray-50">
           {/* Sidebar */}
           <aside className="sidebar">
-            <nav className="p-6 space-y-2">
-              <div className="text-xl font-bold mb-8">MAS Admin</div>
-              <NavLink href="/dashboard">Dashboard</NavLink>
-              <NavLink href="/members">Members</NavLink>
-              <NavLink href="/import">Bulk Import</NavLink>
-              <NavLink href="/logs">Activity Logs</NavLink>
-              <NavLink href="/settings">Settings</NavLink>
+            <div className="sidebar-brand">
+              <div className="sidebar-brand-icon">⚔️</div>
+              <div className="sidebar-brand-text">MAS</div>
+            </div>
+
+            <nav className="sidebar-nav">
+              <NavLink href="/dashboard" icon={<LayoutDashboard className="nav-icon" />}>
+                Dashboard
+              </NavLink>
+              <NavLink href="/members" icon={<Users className="nav-icon" />}>
+                Members
+              </NavLink>
+              <NavLink href="/import" icon={<Upload className="nav-icon" />}>
+                Bulk Import
+              </NavLink>
+              <NavLink href="/logs" icon={<FileText className="nav-icon" />}>
+                Activity Logs
+              </NavLink>
+              <NavLink href="/settings" icon={<Settings className="nav-icon" />}>
+                Settings
+              </NavLink>
             </nav>
+
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700 text-xs text-gray-400">
+              <div>Military Attendance v1.0</div>
+              <div>© 2026 Defense Ministry</div>
+            </div>
           </aside>
 
           {/* Main Content */}
@@ -36,13 +57,22 @@ export default function RootLayout({
   );
 }
 
-function NavLink({ href, children }: { href: string; children: string }) {
+function NavLink({
+  href,
+  children,
+  icon,
+}: {
+  href: string;
+  children: string;
+  icon: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
-      className="block px-4 py-2 rounded hover:bg-military-700 transition"
+      className="nav-item group"
     >
-      {children}
+      {icon}
+      <span className="group-hover:translate-x-0.5 transition-transform">{children}</span>
     </Link>
   );
 }

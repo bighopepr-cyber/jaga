@@ -355,12 +355,91 @@ pnpm dev
 
 ---
 
+## � Production Deployment
+
+This project is **fully production-ready** with automated deployment on Ubuntu VPS.
+
+### Quick Deploy (One Command)
+
+```bash
+# On fresh Ubuntu VPS:
+curl -L https://raw.githubusercontent.com/bighopepr-cyber/jaga/main/install.sh -o install.sh
+chmod +x install.sh
+sudo bash install.sh
+
+# ✅ Everything installed and running in 5-10 minutes
+```
+
+### What's Included
+
+✅ **Docker & Docker Compose** - Containerized services  
+✅ **PostgreSQL** - Production database  
+✅ **Redis** - Caching layer  
+✅ **NGINX** - Reverse proxy & SSL support  
+✅ **Automated Backups** - Daily database snapshots  
+✅ **Health Monitoring** - Service status checks  
+✅ **SSL/HTTPS** - Let's Encrypt integration  
+✅ **Safe Deployment Script** - Zero-downtime updates  
+
+### Documentation
+
+- **[Complete Deployment Guide](./DEPLOYMENT.md)** - Full production setup guide
+- **[Quick Reference](./QUICK_REFERENCE.md)** - Command cheatsheet
+- **[Troubleshooting](./TROUBLESHOOTING.md)** - Common issues & solutions
+- **[Architecture](./docs/architecture.md)** - System design
+
+### Key Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `install.sh` | Automated VPS setup (run once) |
+| `deploy.sh` | Safe code deployment |
+| `health-check.sh` | System health verification |
+| `backup.sh` | Database backup |
+| `setup-ssl.sh` | SSL/HTTPS configuration |
+
+### Quick Commands
+
+```bash
+cd /opt/military-attendance
+
+# View service status
+docker-compose ps
+
+# See logs
+docker-compose logs -f api
+
+# Run health check
+bash health-check.sh
+
+# Deploy updates
+bash deploy.sh
+
+# Backup database
+bash backup.sh
+
+# Use Makefile shortcuts
+make help
+```
+
+### System Requirements
+
+- **OS**: Ubuntu 20.04 LTS or newer
+- **CPU**: 2+ cores (recommended)
+- **RAM**: 2GB+ (4GB+ for production)
+- **Disk**: 20GB+ SSD
+- **Network**: Public IP or domain
+
+---
+
 ## 📞 Support
 
 For deployment, customization, or troubleshooting, refer to:
-- Architecture documentation
-- API reference
-- Environment variables guide
+- [Deployment Guide](./DEPLOYMENT.md) - Complete production setup
+- [Troubleshooting](./TROUBLESHOOTING.md) - Common issues & solutions
+- [Quick Reference](./QUICK_REFERENCE.md) - Command reference
+- [Architecture documentation](./docs/architecture.md) - System design
+- [API reference](./docs/api.md) - Endpoint documentation
 
 ---
 
@@ -371,7 +450,7 @@ For deployment, customization, or troubleshooting, refer to:
 
 ---
 
-Built with ❤️ for military operations | Designed for enterprise scale
+Built with ❤️ for military operations | Enterprise-grade security & reliability
 - Setiap perubahan data anggota tersimpan
 
 ---

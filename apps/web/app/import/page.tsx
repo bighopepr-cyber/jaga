@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { Upload, CheckCircle, AlertTriangle, FileUp, RefreshCw } from 'lucide-react';
 import type { IBulkUserData, ImportMode } from '@mas/types';
 
 export default function ImportPage() {
@@ -85,82 +86,136 @@ export default function ImportPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-8">Bulk Import</h1>
-
-      <div className="bg-white rounded-lg shadow p-6 space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Import Mode</label>
-          <select
-            value={mode}
-            onChange={(e) => setMode(e.target.value as ImportMode)}
-            className="w-full px-4 py-2 border rounded-lg"
-          >
-            <option value="skip_duplicates">Skip Duplicates</option>
-            <option value="overwrite">Overwrite</option>
-          </select>
+    <div className="space-y-8">
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="px-8 py-6">
+          <div className="flex items-center gap-3 mb-2">
+            <FileUp className="w-8 h-8 text-blue-600" />
+            <div className="page-title">Bulk Import</div>
+          </div>
+          <p className="page-description">Import personnel data from CSV files</p>
         </div>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">CSV File</label>
-          <input
-            type="file"
-            accept=".csv,.xlsx"
-            onChange={handleFileUpload}
-            className="w-full px-4 py-2 border rounded-lg"
-          />
-        </div>
+      {/* Main Content */}
+      <div className="px-8 pb-8">
+        <div className="max-w-2xl">
+          <div className="card">
+            {/* Import Mode */}
+            <div className="card-body">
+              <div className="mb-6">
+                <label className="form-label">Import Mode</label>
+                <select
+                  value={mode}
+                  onChange={(e) => setMode(e.target.value as ImportMode)}
+                  className="form-input"
+                >
+                  <option value="skip_duplicates">Skip Duplicates (Recommended)</option>
+                  <option value="overwrite">Overwrite Existing Records</option>
+                </select>
+              </div>
 
-        {users.length > 0 && (
-          <div>
-            <p className="text-sm text-gray-600 mb-4">Preview ({users.length} records)</p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-4 py-2 text-left">NRP</th>
-                    <th className="px-4 py-2 text-left">Name</th>
-                    <th className="px-4 py-2 text-left">Rank</th>
-                    <th className="px-4 py-2 text-left">Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.slice(0, 5).map((user, i) => (
-                    <tr key={i} className="border-t">
-                      <td className="px-4 py-2">{user.nrp}</td>
-                      <td className="px-4 py-2">{user.name}</td>
-                      <td className="px-4 py-2">{user.rank}</td>
-                      <td className="px-4 py-2">{user.unit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {users.length > 5 && (
-                <p className="text-xs text-gray-500 mt-2">... and {users.length - 5} more</p>
+              {/* File Upload */}
+              <div className="mb-6">
+                <label className="form-label">CSV File Upload</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept=".csv,.xlsx"
+                    onChange={handleFileUpload}
+                    className="form-input opacity-0 absolute w-full h-full cursor-pointer"
+                  />
+                  <div className="form-input flex items-center justify-center h-32 bg-blue-50 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-100 transition-colors">
+                    <div className="text-center">
+                      <Upload className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                      <p className="text-sm text-gray-700 font-medium">Click to upload CSV file</p>
+                      <p className="text-xs text-gray-500">or drag and drop</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Expected columns: NRP, Name, Rank, Unit, PIN
+                </p>
+              </div>
+
+              {/* Messages */}
+              {message && (
+                <div className={`alert mb-6 ${message.type === 'success' ? 'alert-success' : 'alert-danger'}`}>
+                  {message.type === 'success' ? (
+                    <CheckCircle className="w-5 h-5 inline-block mr-2" />
+                  ) : (
+                    <AlertTriangle className="w-5 h-5 inline-block mr-2" />
+                  )}
+                  {message.text}
+                </div>
               )}
+
+              {/* Preview */}
+              {users.length > 0 && (
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-sm font-medium text-gray-700">
+                      Data Preview ({users.length} records)
+                    </p>
+                    <button
+                      onClick={() => setUsers([])}
+                      className="text-xs text-red-600 hover:text-red-700 underline"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <div className="overflow-x-auto border border-gray-200 rounded-lg">
+                    <table className="table text-sm">
+                      <thead>
+                        <tr>
+                          <th>NRP</th>
+                          <th>Name</th>
+                          <th>Rank</th>
+                          <th>Unit</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {users.slice(0, 5).map((user, i) => (
+                          <tr key={i}>
+                            <td className="font-mono text-gray-700">{user.nrp}</td>
+                            <td>{user.name}</td>
+                            <td>{user.rank}</td>
+                            <td>{user.unit}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {users.length > 5 && (
+                      <p className="text-xs text-gray-500 p-3 border-t border-gray-200">
+                        ... and {users.length - 5} more records
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Import Button */}
+              <button
+                onClick={handleImport}
+                disabled={loading || users.length === 0}
+                className={`btn btn-primary w-full ${loading || users.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {loading ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 inline-block mr-2 animate-spin" />
+                    Importing...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4 inline-block mr-2" />
+                    Import {users.length > 0 ? `${users.length} Users` : 'Users'}
+                  </>
+                )}
+              </button>
             </div>
           </div>
-        )}
-
-        {message && (
-          <div
-            className={`p-4 rounded-lg ${
-              message.type === 'success'
-                ? 'bg-green-50 text-green-800'
-                : 'bg-red-50 text-red-800'
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
-
-        <button
-          onClick={handleImport}
-          disabled={loading || users.length === 0}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-        >
-          {loading ? 'Importing...' : 'Import Users'}
-        </button>
+        </div>
       </div>
     </div>
   );

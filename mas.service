@@ -1,0 +1,49 @@
+# Systemd Service File for Military Attendance System
+# 
+# Installation:
+#   sudo cp mas.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable mas.service
+#   sudo systemctl start mas.service
+# 
+# Management:
+#   sudo systemctl status mas.service
+#   sudo systemctl restart mas.service
+#   sudo systemctl stop mas.service
+#   sudo journalctl -fu mas.service
+
+[Unit]
+Description=Military Attendance System (Docker Services)
+Documentation=https://github.com/bighopepr-cyber/jaga
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/military-attendance
+Restart=always
+RestartSec=10
+
+# Start services
+ExecStart=/usr/bin/docker-compose up -d
+
+# Stop services gracefully
+ExecStop=/usr/bin/docker-compose down
+
+# Reload configuration (used by systemctl reload)
+ExecReload=/usr/bin/docker-compose restart
+
+# Environment
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
+# Security
+PrivateTmp=yes
+NoNewPrivileges=true
+
+# Resource limits (optional, adjust based on your VPS)
+MemoryMax=2G
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

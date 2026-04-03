@@ -1,0 +1,48 @@
+# Docker Compose Override for Development
+# This file is automatically loaded by docker-compose and overrides settings in docker-compose.yml
+# Used for local development with hot-reload and easier debugging
+
+version: '3.9'
+
+services:
+  api:
+    # Hot reload source code for development
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+      - ./packages:/app/packages
+    # Override environment for development
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+    # Keep container running for debugging
+    stdin_open: true
+    tty: true
+
+  web:
+    # Hot reload source code for development
+    volumes:
+      - ./apps/web/src:/app/apps/web/src
+      - ./apps/web/app:/app/apps/web/app
+      - ./apps/web/public:/app/apps/web/public
+      - ./packages:/app/packages
+    # Override environment for development
+    environment:
+      NODE_ENV: development
+    # Keep container running for debugging
+    stdin_open: true
+    tty: true
+
+  postgres:
+    # No need for healthcheck in dev
+    healthcheck:
+      disable: false
+
+  redis:
+    # No need for healthcheck in dev
+    healthcheck:
+      disable: false
+
+  # Remove NGINX for local development (test API directly)
+  # Uncomment to use NGINX even in development
+  # nginx:
+  #   enabled: true

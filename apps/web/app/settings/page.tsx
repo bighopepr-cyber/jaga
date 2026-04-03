@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Settings, RefreshCw, CheckCircle, AlertTriangle, Lock, Zap, MapPin } from 'lucide-react';
 import type { ISystemConfigValue } from '@mas/types';
 
 export default function SettingsPage() {
@@ -48,9 +49,23 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
-        <div className="text-center py-12">
-          <p className="text-gray-500">Loading settings...</p>
+      <div className="space-y-8">
+        <div className="page-header">
+          <div className="px-8 py-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Settings className="w-8 h-8 text-blue-600" />
+              <div className="page-title">System Settings</div>
+            </div>
+            <p className="page-description">Configure system parameters and security settings</p>
+          </div>
+        </div>
+        <div className="px-8 pb-8">
+          <div className="card">
+            <div className="card-body flex flex-col items-center justify-center h-64">
+              <RefreshCw className="w-12 h-12 text-blue-600 animate-spin mb-4" />
+              <p className="text-gray-600">Loading settings...</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -58,9 +73,21 @@ export default function SettingsPage() {
 
   if (error && !config) {
     return (
-      <div className="p-8">
-        <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
-          <p className="text-red-800">{error}</p>
+      <div className="space-y-8">
+        <div className="page-header">
+          <div className="px-8 py-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Settings className="w-8 h-8 text-blue-600" />
+              <div className="page-title">System Settings</div>
+            </div>
+            <p className="page-description">Configure system parameters and security settings</p>
+          </div>
+        </div>
+        <div className="px-8 pb-8">
+          <div className="alert alert-danger">
+            <AlertTriangle className="w-5 h-5 inline-block mr-2" />
+            {error}
+          </div>
         </div>
       </div>
     );
@@ -68,164 +95,215 @@ export default function SettingsPage() {
 
   if (!config) {
     return (
-      <div className="p-8">
-        <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-          <p className="text-yellow-800">Failed to load configuration</p>
+      <div className="space-y-8">
+        <div className="page-header">
+          <div className="px-8 py-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Settings className="w-8 h-8 text-blue-600" />
+              <div className="page-title">System Settings</div>
+            </div>
+            <p className="page-description">Configure system parameters and security settings</p>
+          </div>
+        </div>
+        <div className="px-8 pb-8">
+          <div className="alert alert-warning">
+            <AlertTriangle className="w-5 h-5 inline-block mr-2" />
+            Failed to load configuration
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-8">System Settings</h1>
-
-      {error && (
-        <div className="mb-6 bg-red-50 border border-red-200 p-4 rounded-lg">
-          <p className="text-red-800">{error}</p>
-        </div>
-      )}
-
-      {saved && (
-        <div className="mb-6 bg-green-50 border border-green-200 p-4 rounded-lg">
-          <p className="text-green-800">Settings saved successfully!</p>
-        </div>
-      )}
-
-      <div className="max-w-2xl space-y-6">
-        {/* Authentication Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold mb-4">Authentication</h2>
-          <div className="space-y-3">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={config.auth.pin}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    auth: { ...config.auth, pin: e.target.checked },
-                  })
-                }
-                className="rounded"
-              />
-              <span className="ml-3">PIN Authentication</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={config.auth.otp}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    auth: { ...config.auth, otp: e.target.checked },
-                  })
-                }
-                className="rounded"
-              />
-              <span className="ml-3">OTP Authentication</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={config.auth.face}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    auth: { ...config.auth, face: e.target.checked },
-                  })
-                }
-                className="rounded"
-              />
-              <span className="ml-3">Face Recognition</span>
-            </label>
+    <div className="space-y-8">
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="px-8 py-6">
+          <div className="flex items-center gap-3 mb-2">
+            <Settings className="w-8 h-8 text-blue-600" />
+            <div className="page-title">System Settings</div>
           </div>
+          <p className="page-description">Configure system parameters and security settings</p>
         </div>
+      </div>
 
-        {/* Detection Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold mb-4">Detection</h2>
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium mb-2">Detection Level</label>
-              <select
-                value={config.detection.level}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    detection: {
-                      ...config.detection,
-                      level: e.target.value as 'low' | 'medium' | 'high',
-                    },
-                  })
-                }
-                className="w-full px-4 py-2 border rounded-lg"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Location Settings */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold mb-4">Location Validation</h2>
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium mb-2">Validation Mode</label>
-              <select
-                value={config.geo.mode}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    geo: {
-                      ...config.geo,
-                      mode: e.target.value as 'hybrid' | 'gps' | 'network',
-                    },
-                  })
-                }
-                className="w-full px-4 py-2 border rounded-lg"
-              >
-                <option value="hybrid">Hybrid (GPS + Network)</option>
-                <option value="gps">GPS Only</option>
-                <option value="network">Network Only</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Radius (meters): {config.geo.radius}
-              </label>
-              <input
-                type="range"
-                min="10"
-                max="500"
-                value={config.geo.radius}
-                onChange={(e) =>
-                  setConfig({
-                    ...config,
-                    geo: { ...config.geo, radius: parseInt(e.target.value) },
-                  })
-                }
-                className="w-full"
-              />
-            </div>
-          </div>
-        </div>
-
-        {saved && (
-          <div className="bg-green-50 text-green-800 p-4 rounded-lg">
-            Configuration saved successfully!
+      {/* Main Content */}
+      <div className="px-8 pb-8">
+        {error && (
+          <div className="alert alert-danger mb-6">
+            <AlertTriangle className="w-5 h-5 inline-block mr-2" />
+            {error}
           </div>
         )}
 
-        <button
-          onClick={handleSave}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-        >
-          Save Configuration
-        </button>
+        {saved && (
+          <div className="alert alert-success mb-6">
+            <CheckCircle className="w-5 h-5 inline-block mr-2" />
+            Settings saved successfully!
+          </div>
+        )}
+
+        <div className="max-w-3xl space-y-6">
+          {/* Authentication Settings */}
+          <div className="card">
+            <div className="card-header flex items-center gap-2">
+              <Lock className="w-5 h-5 text-blue-600" />
+              <h2 className="text-lg font-semibold">Authentication</h2>
+            </div>
+            <div className="card-body">
+              <div className="space-y-4">
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={config.auth.pin}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        auth: { ...config.auth, pin: e.target.checked },
+                      })
+                    }
+                    className="form-checkbox"
+                  />
+                  <span className="ml-3 font-medium">PIN Authentication</span>
+                  <span className="ml-2 text-sm text-gray-500">(NRP + PIN)</span>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={config.auth.otp}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        auth: { ...config.auth, otp: e.target.checked },
+                      })
+                    }
+                    className="form-checkbox"
+                  />
+                  <span className="ml-3 font-medium">OTP Authentication</span>
+                  <span className="ml-2 text-sm text-gray-500">(One-Time Password)</span>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={config.auth.face}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        auth: { ...config.auth, face: e.target.checked },
+                      })
+                    }
+                    className="form-checkbox"
+                  />
+                  <span className="ml-3 font-medium">Face Recognition</span>
+                  <span className="ml-2 text-sm text-gray-500">(Biometric)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Detection Settings */}
+          <div className="card">
+            <div className="card-header flex items-center gap-2">
+              <Zap className="w-5 h-5 text-blue-600" />
+              <h2 className="text-lg font-semibold">Detection Settings</h2>
+            </div>
+            <div className="card-body">
+              <div>
+                <label className="form-label">Detection Sensitivity Level</label>
+                <select
+                  value={config.detection.level}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      detection: {
+                        ...config.detection,
+                        level: e.target.value as 'low' | 'medium' | 'high',
+                      },
+                    })
+                  }
+                  className="form-input"
+                >
+                  <option value="low">Low - Less alerts, faster processing</option>
+                  <option value="medium">Medium - Balanced sensitivity</option>
+                  <option value="high">High - More alerts, thorough detection</option>
+                </select>
+                <p className="text-xs text-gray-500 mt-2">
+                  Higher sensitivity may increase false positives but catches more anomalies
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Location Settings */}
+          <div className="card">
+            <div className="card-header flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-blue-600" />
+              <h2 className="text-lg font-semibold">Location Validation</h2>
+            </div>
+            <div className="card-body space-y-6">
+              <div>
+                <label className="form-label">Validation Mode</label>
+                <select
+                  value={config.geo.mode}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      geo: {
+                        ...config.geo,
+                        mode: e.target.value as 'hybrid' | 'gps' | 'network',
+                      },
+                    })
+                  }
+                  className="form-input"
+                >
+                  <option value="hybrid">Hybrid - GPS + Network (Most Accurate)</option>
+                  <option value="gps">GPS Only - Precise outdoor location</option>
+                  <option value="network">Network Only - Fast approximate location</option>
+                </select>
+              </div>
+              <div>
+                <label className="form-label">Validation Radius: {config.geo.radius} meters</label>
+                <input
+                  type="range"
+                  min="10"
+                  max="500"
+                  step="10"
+                  value={config.geo.radius}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      geo: { ...config.geo, radius: parseInt(e.target.value) },
+                    })
+                  }
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                  <span>10m (Very strict)</span>
+                  <span>500m (Very loose)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3">
+            <button
+              onClick={handleSave}
+              className="btn btn-primary flex-1 flex items-center justify-center gap-2"
+            >
+              <CheckCircle className="w-4 h-4" />
+              Save Configuration
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn btn-secondary flex-1 flex items-center justify-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ import { JwtModule } from '@nestjs/jwt';
 // Database
 import { PrismaModule } from './common/prisma/prisma.module';
 
+// Controllers
+import { HealthController } from './health.controller';
+
 // Modules
 import { AuthModule } from './modules/auth/auth.module';
 import { DeviceModule } from './modules/device/device.module';
@@ -26,7 +29,7 @@ import { WebSocketModule } from './websocket/websocket.module';
     }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret',
-      signOptions: { expiresIn: '24h' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION || '3600' },
     }),
     PrismaModule,
     AuthModule,
@@ -41,7 +44,7 @@ import { WebSocketModule } from './websocket/websocket.module';
     StatsModule,
     WebSocketModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
